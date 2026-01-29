@@ -22,8 +22,8 @@ To install the necessary dependencies, please follow the steps below. We recomme
 
 ```bash
 # 1. Create a conda environment
-conda create -n sert_icml python=3.8 -y
-conda activate sert_icml
+conda create -n sert python=3.8 -y
+conda activate sert
 
 # 2. Install PyTorch (Please adjust the command based on your CUDA version)
 # Example:
@@ -40,11 +40,3 @@ python train.py --config configs/sert_default.yaml
 Evaluation (Safety Check)
 Bash
 python evaluate.py --checkpoint checkpoints/sert_best.pth --task collaboration_task
-📂 Project Structure
-sert/: Core implementation of SeRT algorithm and Transformer models.
-
-envs/: Robotics simulation environments and wrappers.
-
-configs/: Hyperparameter configurations.
-
-scripts/: Scripts for training and evaluation.
