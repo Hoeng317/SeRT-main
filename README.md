@@ -8,7 +8,6 @@
   <br/>
 </div>
 
-This repository contains the official implementation of the paper **"SeRT: [Insert Your Full Paper Title Here]"**, submitted to ICML 2026.
 
 ## 🛠 System Requirements
 We have tested the implementation on the following systems:
