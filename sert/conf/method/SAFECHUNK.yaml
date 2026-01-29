@@ -1,0 +1,71 @@
+# @package _group_
+
+name: 'SAFECHUNK'
+
+# ---------- SAFECHUNK (chunk + safety) ----------
+history_len: 8            # 관찰 H
+chunk_len: 5              # 예측 청크 K
+m_steps: 3                # 실행 스텝 M (K≥M)
+use_safety_token: true    # safety_now를 특성으로 주입
+safety_delta: 0.12        # 위험 임계
+safety_dim: 2             # safety_now = [dnorm, near_flag]
+chunk_loss_weight: 1.0    # 청크 예측 손실 가중치
+safety_chunk_tau: 0.5     # p_unsafe 임계
+
+# ---------- Voxelization ----------
+image_crop_size: 64
+bounds_offset: [0.15]
+voxel_sizes: [100]
+voxel_patch_size: 5
+voxel_patch_stride: 5
+
+# ---------- Perceiver / Transformer ----------
+num_latents: 2048
+latent_dim: 512
+transformer_depth: 6
+transformer_iterations: 1
+cross_heads: 1
+latent_heads: 8
+cross_dim_head: 64
+latent_dim_head: 64
+activation: 'relu'
+pos_encoding_with_lang: True
+no_skip_connection: False
+no_perceiver: False
+no_language: False
+final_dim: 256            # 밀집 헤드 입력 차원
+
+# ---------- Training ----------
+input_dropout: 0.1
+attn_dropout: 0.1
+decoder_dropout: 0.0
+
+lr: 0.0001
+lr_scheduler: cosine      # 코드상 bool 체크이므로 비어있지 않으면 스케줄러 활성화됨
+num_warmup_steps: 0
+optimizer: 'adam'         # ← QAttentionPerActBCAgent가 adam/lamb만 지원
+
+lambda_weight_l2: 0.000001
+trans_loss_weight: 1.0
+rot_loss_weight: 1.0
+grip_loss_weight: 1.0
+collision_loss_weight: 1.0
+
+rotation_resolution: 5    # 5° -> 72 클래스
+
+# ---------- Language Fusion ----------
+lang_fusion_type: 'seq'   # 'seq' 권장(토큰 시퀀스 결합)
+
+# ---------- Data Aug ----------
+crop_augmentation: False
+transform_augmentation:
+  apply_se3: True
+  aug_xyz: [0.125, 0.125, 0.125]
+  aug_rpy: [0.0, 0.0, 45.0]
+  aug_rot_resolution: ${method.rotation_resolution}
+
+demo_augmentation: True
+demo_augmentation_every_n: 10
+
+# ---------- Keypoint ----------
+keypoint_method: 'heuristic'
